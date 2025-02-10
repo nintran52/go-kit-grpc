@@ -9,20 +9,20 @@ import (
 	pb "github.com/nintran52/go-kit-grpc/proto"
 )
 
-// GreeterServer triển khai pb.GreeterServer (từ gRPC)
-type GreeterServer struct {
+// greeterServer implements pb.GreeterServer (from gRPC)
+type greeterServer struct {
 	sayHello grpc.Handler
 	pb.UnimplementedGreeterServer
 }
 
 func NewGRPCServer(ep kit.Endpoint) pb.GreeterServer {
-	return &GreeterServer{
+	return &greeterServer{
 		sayHello: grpc.NewServer(ep, decodeGRPCSayHelloRequest, encodeGRPCSayHelloResponse),
 	}
 }
 
-// SayHello triển khai gRPC method
-func (s *GreeterServer) SayHello(ctx context.Context, req *pb.HelloRequest) (*pb.HelloReply, error) {
+// SayHello implements the gRPC method
+func (s *greeterServer) SayHello(ctx context.Context, req *pb.HelloRequest) (*pb.HelloReply, error) {
 	_, resp, err := s.sayHello.ServeGRPC(ctx, req)
 	if err != nil {
 		return nil, err
@@ -30,13 +30,13 @@ func (s *GreeterServer) SayHello(ctx context.Context, req *pb.HelloRequest) (*pb
 	return resp.(*pb.HelloReply), nil
 }
 
-// decodeGRPCSayHelloRequest giải mã gRPC request thành Go-Kit struct
+// decodeGRPCSayHelloRequest decodes the gRPC request into a Go-Kit struct
 func decodeGRPCSayHelloRequest(_ context.Context, req interface{}) (interface{}, error) {
 	r := req.(*pb.HelloRequest)
 	return endpoint.SayHelloRequest{Name: r.Name}, nil
 }
 
-// encodeGRPCSayHelloResponse mã hóa Go-Kit response thành gRPC response
+// encodeGRPCSayHelloResponse encodes the Go-Kit response into a gRPC response
 func encodeGRPCSayHelloResponse(_ context.Context, resp interface{}) (interface{}, error) {
 	r := resp.(endpoint.SayHelloResponse)
 	return &pb.HelloReply{Message: r.Message}, nil

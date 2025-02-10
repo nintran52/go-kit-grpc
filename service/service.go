@@ -4,12 +4,12 @@ import (
 	"context"
 )
 
-// GreeterService định nghĩa service với Go-Kit
+// GreeterService defines the service with Go-Kit
 type GreeterService interface {
 	SayHello(ctx context.Context, name string) (string, error)
 }
 
-// greeterService triển khai GreeterService
+// greeterService implements GreeterService
 type greeterService struct{}
 
 func NewGreeterService() GreeterService {

@@ -104,3 +104,26 @@ The code follows the Go-Kit architecture with three main layers:
 
 ## License
 This project is open-source and available under the [MIT License](LICENSE).
+
+
+## Data Flow
+
+### Client
+- `client.SayHello(ctx, &pb.HelloRequest{Name: "Go-Kit"})` sends a gRPC request to the server with the name "Go-Kit".
+
+### Server
+- The server receives the request in the `SayHello` method in `transport.go`.
+
+### Transport Layer
+- `ServeGRPC` calls `decodeGRPCSayHelloRequest` to decode the gRPC request into a Go-Kit struct.
+
+### Endpoint Layer
+- The request is forwarded to the `MakeSayHelloEndpoint` endpoint.
+
+### Service Layer
+- The endpoint calls the `SayHello` method of `GreeterService`.
+
+### Response
+- The result from `GreeterService` is returned through the layers in reverse order.
+- Finally, the client receives the response and prints the greeting message.
+

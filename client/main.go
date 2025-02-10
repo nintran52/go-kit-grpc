@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	// Kết nối đến server
+	// Connect to the server
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Failed to connect: %v", err)
@@ -22,7 +22,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	// Gửi request đến server
+	// Send request to the server
 	res, err := client.SayHello(ctx, &pb.HelloRequest{Name: "Go-Kit"})
 	if err != nil {
 		log.Fatalf("Could not greet: %v", err)

@@ -7,7 +7,7 @@ import (
 	"github.com/nintran52/go-kit-grpc/service"
 )
 
-// SayHelloRequest và SayHelloResponse đại diện cho request/response
+// SayHelloRequest and SayHelloResponse represent the request/response
 type SayHelloRequest struct {
 	Name string
 }
@@ -16,7 +16,7 @@ type SayHelloResponse struct {
 	Message string
 }
 
-// MakeSayHelloEndpoint tạo Go-Kit endpoint
+// MakeSayHelloEndpoint creates a Go-Kit endpoint
 func MakeSayHelloEndpoint(s service.GreeterService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(SayHelloRequest)
